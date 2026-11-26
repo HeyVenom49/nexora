@@ -1,0 +1,1 @@
+ALTER TABLE "carts" ADD CONSTRAINT "carts_status_valid" CHECK ("carts"."status" IN ('active', 'converted', 'abandoned'));
