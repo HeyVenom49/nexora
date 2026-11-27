@@ -17,6 +17,13 @@ export const createProductBodySchema = z.object({
   status: productStatusSchema.optional(),
 });
 
+export const updateProductBodySchema = createProductBodySchema
+  .partial()
+  .refine(
+    (data) => Object.keys(data).length > 0,
+    "At least one field must be provided",
+  );
+
 export const getProductParamsSchema = z.object({
   productId: z.string().uuid(),
 });

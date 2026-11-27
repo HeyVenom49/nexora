@@ -101,7 +101,7 @@ test("throws NotFoundError when product ID does not exist", async () => {
 
   repository.findById.mockResolvedValue(null);
 
-  expect(service.getProductById(product.id)).rejects.toBeInstanceOf(
+  await expect(service.getProductById(product.id)).rejects.toBeInstanceOf(
     NotFoundError,
   );
 });
