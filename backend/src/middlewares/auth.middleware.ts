@@ -30,13 +30,6 @@ export const authenticate: RequestHandler = async (req, res, next) => {
 
     next();
   } catch (error) {
-    next(
-      error instanceof UnauthorizedError
-        ? error
-        : new UnauthorizedError(
-            "Invalid or expired authentication token",
-            "INVALID_TOKEN",
-          ),
-    );
+    next(error);
   }
 };

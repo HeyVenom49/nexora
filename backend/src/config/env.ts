@@ -14,7 +14,13 @@ const envSchema = z.object({
     ),
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
-  JWT_EXPIRES_IN: z.string().default("15m"),
+  JWT_EXPIRES_IN: z
+    .string()
+    .regex(
+      /^[1-9]\d*(s|m|h|d)$/,
+      "JWT_EXPIRES_IN must be a positive duration like 15m, 1h, or 7d",
+    )
+    .default("15m"),
   JWT_ISSUER: z.string().min(1).default("commerce-engine"),
   JWT_AUDIENCE: z.string().min(1).default("commerce-client"),
 });

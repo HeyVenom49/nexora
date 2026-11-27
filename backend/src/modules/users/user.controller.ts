@@ -50,7 +50,7 @@ export class UserController {
 
   public getCurrentUser: RequestHandler = async (_req, res, next) => {
     try {
-      const userId = res.locals.userId as string;
+      const userId = res.locals.userId;
 
       const user = await this.userService.getUserById(userId);
 
