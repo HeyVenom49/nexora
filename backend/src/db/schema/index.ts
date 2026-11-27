@@ -9,3 +9,7 @@ export * from "./orders";
 export * from "./order-items";
 export * from "./payments";
 export * from "./inventory-reservations";
+export * from "./roles";
+export * from "./permissions";
+export * from "./user-roles";
+export * from "./role-permissions";

@@ -85,6 +85,34 @@
       "when": 1795532596378,
       "tag": "0011_carts_status_check",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1795792279392,
+      "tag": "0012_daffy_moira_mactaggert",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1795792400000,
+      "tag": "0013_seed_rbac_defaults",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1795792500000,
+      "tag": "0014_user_roles_role_id_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1795795746177,
+      "tag": "0015_fix_permission_descriptions",
+      "breakpoints": true
     }
   ]
 }
