@@ -113,6 +113,13 @@
       "when": 1795795746177,
       "tag": "0015_fix_permission_descriptions",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1795796153844,
+      "tag": "0016_sync_user_roles_role_id_index",
+      "breakpoints": true
     }
   ]
 }

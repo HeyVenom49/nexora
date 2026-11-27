@@ -1,4 +1,10 @@
-import { pgTable, primaryKey, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  index,
+  pgTable,
+  primaryKey,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { roles } from "./roles";
 
@@ -20,5 +26,6 @@ export const userRoles = pgTable(
       name: "user_roles_pk",
       columns: [table.userId, table.roleId],
     }),
+    index("user_roles_role_id_idx").on(table.roleId),
   ],
 );
