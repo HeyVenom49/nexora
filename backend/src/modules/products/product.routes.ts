@@ -9,6 +9,7 @@ import {
   getProductBySlugParamsSchema,
   getProductParamsSchema,
 } from "./product.validation";
+import { requirePermission } from "../../middlewares/permission.middleware";
 
 const router = Router();
 
@@ -30,4 +31,10 @@ router.get(
   productController.getProductBySlug,
 );
 
+router.post(
+  "/",
+  authenticate,
+  requirePermission("product:create"),
+  productController.createProduct,
+);
 export default router;
