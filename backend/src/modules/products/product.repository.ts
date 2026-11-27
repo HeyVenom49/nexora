@@ -66,4 +66,14 @@ export class ProductRepository {
 
     return product ?? null;
   }
+
+  public async archiveById(productId: string): Promise<Product | null> {
+    const [product] = await this.database
+      .update(products)
+      .set({ status: "archived", updatedAt: new Date() })
+      .where(eq(products.id, productId))
+      .returning();
+
+    return product ?? null;
+  }
 }

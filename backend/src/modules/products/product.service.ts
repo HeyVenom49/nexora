@@ -98,4 +98,27 @@ export class ProductService {
       throw error;
     }
   }
+
+  public async archiveProduct(productId: string) {
+    const product = await this.productRepository.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
+    }
+
+    if (product.status === "archived") {
+      throw new ConflictError(
+        "Product is already archived",
+        "PRODUCT_ALREADY_ARCHIVED",
+      );
+    }
+
+    const archivedProduct = await this.productRepository.archiveById(productId);
+
+    if (!archivedProduct) {
+      throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
+    }
+
+    return archivedProduct;
+  }
 }

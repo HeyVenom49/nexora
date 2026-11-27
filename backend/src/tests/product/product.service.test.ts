@@ -30,6 +30,12 @@ function createService() {
       async (_id: string, _input: UpdateProduct): Promise<Product | null> =>
         product,
     ),
+    archiveById: mock(
+      async (_id: string): Promise<Product | null> => ({
+        ...product,
+        status: "archived",
+      }),
+    ),
   };
 
   const service = new ProductService(
@@ -164,4 +170,44 @@ test("throws ConflictError when updating to an existing slug", async () => {
   ).rejects.toBeInstanceOf(ConflictError);
 
   expect(repository.updateById).not.toHaveBeenCalled();
+});
+
+test("archives a product", async () => {
+  const { service, repository } = createService();
+  const archived: Product = { ...product, status: "archived" };
+  repository.archiveById.mockResolvedValue(archived);
+
+  const result = await service.archiveProduct(product.id);
+
+  expect(result).toEqual(archived);
+  expect(repository.archiveById).toHaveBeenCalledWith(product.id);
+});
+
+test("throws NotFoundError when archiving a missing product", async () => {
+  const { service, repository } = createService();
+  repository.findById.mockResolvedValue(null);
+
+  await expect(service.archiveProduct(product.id)).rejects.toBeInstanceOf(
+    NotFoundError,
+  );
+  expect(repository.archiveById).not.toHaveBeenCalled();
+});
+
+test("throws ConflictError when the product is already archived", async () => {
+  const { service, repository } = createService();
+  repository.findById.mockResolvedValue({ ...product, status: "archived" });
+
+  await expect(service.archiveProduct(product.id)).rejects.toBeInstanceOf(
+    ConflictError,
+  );
+  expect(repository.archiveById).not.toHaveBeenCalled();
+});
+
+test("throws NotFoundError when the row disappears during archive", async () => {
+  const { service, repository } = createService();
+  repository.archiveById.mockResolvedValue(null);
+
+  await expect(service.archiveProduct(product.id)).rejects.toBeInstanceOf(
+    NotFoundError,
+  );
 });

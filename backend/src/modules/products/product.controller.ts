@@ -79,4 +79,20 @@ export class ProductController {
       next(error);
     }
   };
+
+  public archiveProduct = async (
+    req: Request<{ productId: string }>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    try {
+      const product = await this.productService.archiveProduct(
+        req.params.productId,
+      );
+
+      res.status(200).json({ success: true, data: product });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
