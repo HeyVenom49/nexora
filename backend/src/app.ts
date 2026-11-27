@@ -1,8 +1,7 @@
 import express from "express";
 import { errorMiddleware } from "./middlewares/error.middleware";
-import { userRoutes } from "./modules/users/user.routes";
 import { notFoundMiddleware } from "./middlewares/not-found.middleware";
-import { authRoutes } from "./modules/auth/auth.route";
+import { apiRouter } from "./routes";
 
 const app = express();
 
@@ -15,9 +14,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.use("/api/users", userRoutes);
-
-app.use("/api/auth", authRoutes);
+app.use("/api", apiRouter);
 
 app.use(notFoundMiddleware);
 

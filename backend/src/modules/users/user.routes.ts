@@ -8,10 +8,11 @@ import { Argon2idPasswordHasher } from "../../security/argon2id-password-hasher"
 import { validateBody } from "../../middlewares/validate-body.middleware";
 import { authenticate } from "../../middlewares/auth.middleware";
 import { registerRateLimiter } from "../../middlewares/register-rate-limiter.middleware";
+import { db } from "../../db";
 
 const router = Router();
 
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(db);
 const passwordHasher = new Argon2idPasswordHasher();
 const userService = new UserService(userRepository, passwordHasher);
 const userController = new UserController(userService);

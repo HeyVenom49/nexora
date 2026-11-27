@@ -7,10 +7,11 @@ import { loginRateLimiter } from "../../middlewares/login-rate-limiter.middlewar
 import { validateBody } from "../../middlewares/validate-body.middleware";
 import { loginBodySchema } from "./auth.validation";
 import { TokenService } from "../../security/token-service";
+import { db } from "../../db";
 
 const router = Router();
 
-const userRepository = new UserRepository();
+const userRepository = new UserRepository(db);
 const passwordHasher = new Argon2idPasswordHasher();
 const tokenService = new TokenService();
 const authService = new AuthService(

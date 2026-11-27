@@ -7,8 +7,10 @@ export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
 export class UserRepository {
+  constructor(private readonly database: typeof db) {}
+
   public async findById(userId: string): Promise<User | null> {
-    const [user] = await db
+    const [user] = await this.database
       .select()
       .from(users)
       .where(eq(users.id, userId))
@@ -18,13 +20,13 @@ export class UserRepository {
   }
 
   public async create(input: NewUser): Promise<User> {
-    const [user] = await db.insert(users).values(input).returning();
+    const [user] = await this.database.insert(users).values(input).returning();
 
     return user;
   }
 
   public async findByEmail(email: string): Promise<User | null> {
-    const [user] = await db
+    const [user] = await this.database
       .select()
       .from(users)
       .where(eq(users.email, email))
