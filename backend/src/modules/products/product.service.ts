@@ -37,7 +37,7 @@ export class ProductService {
   public async getProductById(productId: string) {
     const product = await this.productRepository.findById(productId);
 
-    if (!product) {
+    if (!product || product.status === "archived") {
       throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
     }
 
@@ -47,7 +47,7 @@ export class ProductService {
   public async getProductBySlug(slug: string) {
     const product = await this.productRepository.findBySlug(slug);
 
-    if (!product) {
+    if (!product || product.status === "archived") {
       throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
     }
 
