@@ -116,7 +116,10 @@ export class ProductService {
     const archivedProduct = await this.productRepository.archiveById(productId);
 
     if (!archivedProduct) {
-      throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
+      throw new ConflictError(
+        "Product is already archived",
+        "PRODUCT_ALREADY_ARCHIVED",
+      );
     }
 
     return archivedProduct;

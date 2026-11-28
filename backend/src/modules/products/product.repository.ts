@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 import { db } from "../../db";
 import { products } from "../../db/schema";
 
@@ -71,7 +71,7 @@ export class ProductRepository {
     const [product] = await this.database
       .update(products)
       .set({ status: "archived", updatedAt: new Date() })
-      .where(eq(products.id, productId))
+      .where(and(eq(products.id, productId), ne(products.status, "archived")))
       .returning();
 
     return product ?? null;
