@@ -55,19 +55,27 @@ export class ProductService {
   }
 
   public async updateProduct(productId: string, input: UpdateProduct) {
-    if (input.slug !== undefined) {
+    const existingProduct = await this.productRepository.findById(productId);
+
+    if (!existingProduct) {
+      throw new NotFoundError("Product not found", "PRODUCT_NOT_FOUND");
+    }
+
+    if (existingProduct.status === "archived") {
+      throw new ConflictError(
+        "Product is archived and cannot be updated",
+        "PRODUCT_ALREADY_ARCHIVED",
+      );
+    }
+
+    if (input.slug !== undefined && input.slug !== existingProduct.slug) {
       const slugExists = await this.productRepository.existsBySlug(input.slug);
 
       if (slugExists) {
-        const existingProduct =
-          await this.productRepository.findById(productId);
-
-        if (existingProduct?.slug !== input.slug) {
-          throw new ConflictError(
-            "Product slug already exists",
-            "PRODUCT_SLUG_ALREADY_EXISTS",
-          );
-        }
+        throw new ConflictError(
+          "Product slug already exists",
+          "PRODUCT_SLUG_ALREADY_EXISTS",
+        );
       }
     }
 
